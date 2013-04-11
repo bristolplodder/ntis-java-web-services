@@ -49,25 +49,29 @@ public class TMUTrafficDataServiceImpl extends AbstractDatexService implements
         if (!validate(d2LogicalModel)) {
             throw new RuntimeException("Incoming request does not appear to be valid!");
         }
-        List<SiteMeasurements> siteMeasurementsList = ((MeasuredDataPublication) d2LogicalModel.getPayloadPublication())
-                .getSiteMeasurements();
-        for (SiteMeasurements siteMeasurements : siteMeasurementsList) {
-            List<SiteMeasurementsIndexMeasuredValue> measuredValueList = siteMeasurements.getMeasuredValue();
-            for (SiteMeasurementsIndexMeasuredValue siteMeasurementsIndexMeasuredValue : measuredValueList) {
-                MeasuredValue measuredValue = siteMeasurementsIndexMeasuredValue.getMeasuredValue();
-                BasicData basicData = measuredValue.getBasicData();
-                if (basicData instanceof TrafficFlow) {
-                    VehicleFlowValue value = ((TrafficFlow) basicData).getVehicleFlow();
-                    LOG.info("Vehicle flow rate : " + value.getVehicleFlowRate().intValue());
-                } else if (basicData instanceof TrafficSpeed) {
-                    float speed = ((TrafficSpeed) basicData).getAverageVehicleSpeed().getSpeed();
-                    LOG.info("Traffic speed : " + speed);
-                } else if (basicData instanceof TrafficHeadway) {
-                    float headWay = ((TrafficHeadway) basicData).getAverageTimeHeadway().getDuration();
-                    LOG.info("Traffic Headway : " + headWay);
-                } else if (basicData instanceof TrafficConcentration) {
-                    float percentage = ((TrafficConcentration) basicData).getOccupancy().getPercentage();
-                    LOG.info("Traffic concentration percentage : " + percentage);
+
+        MeasuredDataPublication measuredDataPublication = (MeasuredDataPublication) d2LogicalModel.getPayloadPublication();
+        if (measuredDataPublication != null) {
+            List<SiteMeasurements> siteMeasurementsList = measuredDataPublication
+                    .getSiteMeasurements();
+            for (SiteMeasurements siteMeasurements : siteMeasurementsList) {
+                List<SiteMeasurementsIndexMeasuredValue> measuredValueList = siteMeasurements.getMeasuredValue();
+                for (SiteMeasurementsIndexMeasuredValue siteMeasurementsIndexMeasuredValue : measuredValueList) {
+                    MeasuredValue measuredValue = siteMeasurementsIndexMeasuredValue.getMeasuredValue();
+                    BasicData basicData = measuredValue.getBasicData();
+                    if (basicData instanceof TrafficFlow) {
+                        VehicleFlowValue value = ((TrafficFlow) basicData).getVehicleFlow();
+                        LOG.info("Vehicle flow rate : " + value.getVehicleFlowRate().intValue());
+                    } else if (basicData instanceof TrafficSpeed) {
+                        float speed = ((TrafficSpeed) basicData).getAverageVehicleSpeed().getSpeed();
+                        LOG.info("Traffic speed : " + speed);
+                    } else if (basicData instanceof TrafficHeadway) {
+                        float headWay = ((TrafficHeadway) basicData).getAverageTimeHeadway().getDuration();
+                        LOG.info("Traffic Headway : " + headWay);
+                    } else if (basicData instanceof TrafficConcentration) {
+                        float percentage = ((TrafficConcentration) basicData).getOccupancy().getPercentage();
+                        LOG.info("Traffic concentration percentage : " + percentage);
+                    }
                 }
             }
         }
