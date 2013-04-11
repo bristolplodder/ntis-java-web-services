@@ -27,11 +27,14 @@ import com.thales.ntis.subscriber.datex.DeliverAverageSpeedFvdRequest;
 import com.thales.ntis.subscriber.datex.DeliverAverageSpeedFvdResponse;
 import com.thales.ntis.subscriber.datex.DeliverMIDASTrafficDataRequest;
 import com.thales.ntis.subscriber.datex.DeliverMIDASTrafficDataResponse;
+import com.thales.ntis.subscriber.datex.DeliverTMUTrafficDataRequest;
+import com.thales.ntis.subscriber.datex.DeliverTMUTrafficDataResponse;
 import com.thales.ntis.subscriber.services.ANPRTrafficDataService;
 import com.thales.ntis.subscriber.services.AverageJourneyTimeService;
 import com.thales.ntis.subscriber.services.AverageSpeedFusedDataService;
 import com.thales.ntis.subscriber.services.AverageSpeedFvdService;
 import com.thales.ntis.subscriber.services.MIDASTrafficDataService;
+import com.thales.ntis.subscriber.services.TMUTrafficDataService;
 
 /**
  * This is a reference SubscriberServiceEndpoint. Business logic is delegated to
@@ -55,6 +58,9 @@ public class SubscriberServiceEndpoint {
 
     @Autowired
     private MIDASTrafficDataService mIDASTrafficDataService;
+
+    @Autowired
+    private TMUTrafficDataService tMUTrafficDataService;
 
     @PayloadRoot(namespace = "http://www.thalesgroup.com/NTIS/SubscriberService", localPart = "DeliverAverageSpeedFusedDataRequest")
     public DeliverAverageSpeedFusedDataResponse handle(
@@ -110,4 +116,12 @@ public class SubscriberServiceEndpoint {
 
         return response;
     }
+
+    @PayloadRoot(namespace = "http://www.thalesgroup.com/NTIS/SubscriberService", localPart = "DeliverTMUTrafficDataRequest")
+    public DeliverTMUTrafficDataResponse
+            handle(DeliverTMUTrafficDataRequest request) {
+        DeliverTMUTrafficDataResponse response = tMUTrafficDataService.handle(request);
+        return response;
+    }
+
 }
