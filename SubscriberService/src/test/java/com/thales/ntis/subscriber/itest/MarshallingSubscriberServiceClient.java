@@ -25,8 +25,6 @@ import com.thales.ntis.subscriber.datex.DeliverAverageSpeedFvdRequest;
 import com.thales.ntis.subscriber.datex.DeliverAverageSpeedFvdResponse;
 import com.thales.ntis.subscriber.datex.DeliverMIDASTrafficDataRequest;
 import com.thales.ntis.subscriber.datex.DeliverMIDASTrafficDataResponse;
-import com.thales.ntis.subscriber.datex.DeliverVMSTrafficDataRequest;
-import com.thales.ntis.subscriber.datex.DeliverVMSTrafficDataResponse;
 
 /**
  * This is a sample web service client which uses the Spring WebServiceTemplate
@@ -71,15 +69,9 @@ public class MarshallingSubscriberServiceClient implements
     }
 
     @Override
-    public DeliverANPRTrafficDataResponse invokeService(DeliverANPRTrafficDataRequest request) {
+    public DeliverANPRTrafficDataResponse invokeService(
+            DeliverANPRTrafficDataRequest request) {
         DeliverANPRTrafficDataResponse response = (DeliverANPRTrafficDataResponse) webServiceTemplate
-                .marshalSendAndReceive(request);
-        return response;
-    }
-
-    @Override
-    public DeliverVMSTrafficDataResponse invokeService(DeliverVMSTrafficDataRequest request) {
-        DeliverVMSTrafficDataResponse response = (DeliverVMSTrafficDataResponse) webServiceTemplate
                 .marshalSendAndReceive(request);
         return response;
     }
@@ -90,5 +82,4 @@ public class MarshallingSubscriberServiceClient implements
     public void setWebServiceTemplate(WebServiceTemplate webServiceTemplate) {
         this.webServiceTemplate = webServiceTemplate;
     }
-
 }
